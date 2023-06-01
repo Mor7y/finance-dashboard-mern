@@ -1,6 +1,5 @@
 import { Response, Request, Router } from "express";
 import KPI from "../models/KPI";
-import mongoose from "mongoose";
 
 const router = Router();
 
@@ -14,7 +13,7 @@ interface KPIsData {
     dailyData: DailyData[];
 }
 
-interface MonthlyData {
+export interface MonthlyData {
     month: string;
     revenue: number;
     expenses: number;
@@ -23,7 +22,7 @@ interface MonthlyData {
     _id: string;
 }
 
-interface DailyData {
+export interface DailyData {
     date: string;
     revenue: number;
     expenses: number;
@@ -36,9 +35,12 @@ router.get("/kpis", async (req: Request, res: Response): Promise<void> => {
         res.status(200).json(kpis);
     } catch (error) {
         let message: string;
-        if (error instanceof Error)
+        if (error instanceof Error) {
             res.status(404).json({ message: error.message });
-        else message = String(error);
+        } else {
+            message = String(error);
+            console.error(message);
+        }
     }
 });
 
