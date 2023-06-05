@@ -23,3 +23,10 @@ interface DailyData {
     expenses: number;
     _id: string;
 }
+
+export interface ProductsResponse {
+    _id: string;
+    price: number;
+    expense: number;
+    transaction: string[];
+}
