@@ -152,7 +152,6 @@ const Row1 = () => {
             </DashboardBox>
 
             <DashboardBox gridArea="b">
-                {" "}
                 <BoxHeader
                     title="Profit and Revenue"
                     subtitle="Top line is Revenue, bottom line are Expenses"
