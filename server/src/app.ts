@@ -7,7 +7,9 @@ import helmet from "helmet";
 import "dotenv/config";
 import kpiRoutes from "./routes/kpi";
 import KPI from "./models/KPI";
-import { kpis } from "./data";
+import Product from "./models/Product";
+import productRoutes from "./routes/product";
+import { kpis, products } from "./data";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use("/kpi", kpiRoutes);
+app.use("/product", productRoutes);
 
 const PORT = process.env.PORT || 9000;
 if (!process.env.MONGO_URL_STRING) {
@@ -33,5 +36,6 @@ mongoose
     .then(() => {
         app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
         // KPI.create(kpis);
+        // Product.create(products);
     })
     .catch((err) => console.log(`${err} did not connect`));
