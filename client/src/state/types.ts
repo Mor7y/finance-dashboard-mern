@@ -30,3 +30,9 @@ export interface ProductsResponse {
     expense: number;
     transaction: string[];
 }
+
+export interface TransactionResponse {
+    buyer: string;
+    amount: number;
+    productIds: string[];
+}
