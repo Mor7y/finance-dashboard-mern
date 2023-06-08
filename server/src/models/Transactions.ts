@@ -3,14 +3,13 @@ import mongoose, { InferSchemaType, Schema, model } from "mongoose";
 const TransactionSchema = new Schema(
     {
         buyer: {
-            type: Number,
-            set: (v: string): string => v.replace("$", ""),
+            type: String,
         },
         amount: {
             type: Number,
             set: (v: string): string => v.replace("$", ""),
         },
-        productId: [
+        productIds: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Product",

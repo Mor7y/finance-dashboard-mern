@@ -8,8 +8,10 @@ import "dotenv/config";
 import kpiRoutes from "./routes/kpi";
 import KPI from "./models/KPI";
 import Product from "./models/Product";
+import Transaction from "./models/Transactions";
+import transactionRoutes from "./routes/transaction";
 import productRoutes from "./routes/product";
-import { kpis, products } from "./data";
+import { kpis, products, transactions } from "./data";
 
 const app = express();
 app.use(express.json());
@@ -22,6 +24,7 @@ app.use(cors());
 
 app.use("/kpi", kpiRoutes);
 app.use("/product", productRoutes);
+app.use("/transcation", transactionRoutes);
 
 const PORT = process.env.PORT || 9000;
 if (!process.env.MONGO_URL_STRING) {
@@ -37,5 +40,6 @@ mongoose
         app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
         // KPI.create(kpis);
         // Product.create(products);
+        // Transaction.create(transactions);
     })
     .catch((err) => console.log(`${err} did not connect`));
