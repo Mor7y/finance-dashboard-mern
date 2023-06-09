@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import mongoose, { ConnectOptions } from "mongoose";
+import mongoose, { ConnectOptions, Model } from "mongoose";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -27,19 +27,33 @@ app.use("/product", productRoutes);
 app.use("/transaction", transactionRoutes);
 
 const PORT = process.env.PORT || 9000;
-if (!process.env.MONGO_URL_STRING) {
-    throw new Error("Invalid MongoDB URL");
+
+async function checkAndCreateCollections() {
+    if (!process.env.MONGO_URL_STRING) {
+        throw new Error("Invalid MongoDB URL");
+    }
+
+    try {
+        await mongoose.connect(process.env.MONGO_URL_STRING, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        } as ConnectOptions);
+
+        const createIfEmpty = async <T>(model: Model<T>, data: unknown[]) => {
+            const documentsCount = await model.countDocuments();
+            if (documentsCount === 0) {
+                await model.create(data);
+            }
+        };
+
+        await createIfEmpty(KPI, kpis);
+        await createIfEmpty(Product, products);
+        await createIfEmpty(Transaction, transactions);
+
+        app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    } catch (err) {
+        console.log(`${err} did not connect`);
+    }
 }
 
-mongoose
-    .connect(process.env.MONGO_URL_STRING, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    } as ConnectOptions)
-    .then(() => {
-        app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-        // KPI.create(kpis);
-        // Product.create(products);
-        // Transaction.create(transactions);
-    })
-    .catch((err) => console.log(`${err} did not connect`));
+checkAndCreateCollections();
