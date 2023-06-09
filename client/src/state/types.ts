@@ -3,7 +3,7 @@ export interface KPIResponse {
     totalProfit: number;
     totalRevenue: number;
     totalExpenses: number;
-    expensesBycategory: Map<string, number>;
+    expensesByCategory: Map<string, number>;
     monthlyData: MonthlyData[];
     dailyData: DailyData[];
 }
@@ -32,6 +32,7 @@ export interface ProductsResponse {
 }
 
 export interface TransactionResponse {
+    _id: string;
     buyer: string;
     amount: number;
     productIds: string[];
